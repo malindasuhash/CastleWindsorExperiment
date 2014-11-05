@@ -9,13 +9,22 @@
         bool DogFeatureEnabled { get; } 
     }
 
+    public enum FeatureKey
+    {
+        CatFeatureEnabled,
+
+        BatFeatureEnabled,
+
+        DogFeatureEnabled
+    }
+
     public class FeatureConfig : IFeatureConfig
     {
         public bool CatFeatureEnabled
         {
             get
             {
-                return true;
+                return false;
             }
         }
 
@@ -23,7 +32,7 @@
         {
             get
             {
-                return false;
+                return true;
             }
         }
 
