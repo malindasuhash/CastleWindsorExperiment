@@ -2,7 +2,12 @@
 
 namespace CastleWindsorIoC
 {
-    public class Logger
+    public interface ILogger
+    {
+        void DisplayMessage();
+    }
+
+    public class Logger : ILogger
     {
         private readonly IAnimal _animal;
 

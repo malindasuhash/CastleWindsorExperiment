@@ -14,7 +14,7 @@ namespace CastleWindsorIoC
             var installer = new Installer();
             var container = installer.Install();
 
-            var logger = container.Resolve<Logger>();
+            var logger = container.Resolve<ILogger>();
 
             logger.DisplayMessage(); // Takes the first registration when multiple registration are present.
 

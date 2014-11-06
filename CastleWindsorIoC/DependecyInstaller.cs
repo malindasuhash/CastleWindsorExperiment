@@ -1,4 +1,5 @@
-﻿using Castle.Core.Configuration;
+﻿using System.Runtime.InteropServices.ComTypes;
+using Castle.Core.Configuration;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
@@ -9,25 +10,36 @@ namespace CastleWindsorIoC
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            // In the parent container perhaps.
+            // Somewhere in the container.
             container.Register(Component.For<IFeatureConfig>().ImplementedBy<FeatureConfig>());
 
-            container.Register(Classes.FromThisAssembly()
+            container.Register(Component.For<ILogger>()
+                .ImplementedBy<Logger>()
+                .LifestyleSingleton());
+
+            container.Register(Classes
+                .FromThisAssembly()
                 .BasedOn<IAnimal>()
-                .Record<Bat>()
-                .WhenFeature(FeatureKey.BatFeatureEnabled)
-                .IsEnabled()
-                .Or<Bat>()
-                .WhenDisabled()
-                .If(f => {
-                    var featureConfig = container.Resolve<IFeatureConfig>();
-                    if (featureConfig.BatFeatureEnabled)
-                    {
-                        return f.Name.EndsWith("Bat");
-                    }
-                    return f.Name.EndsWith("Dog");
-                })
-                .WithServiceBase());
+                .RegisterForFeature<Bat>(FeatureKey.BatFeature, When.Enabled, container)
+                .WithService.AllInterfaces()
+                .LifestyleSingleton());
+
+            //container.Register(Classes.FromThisAssembly()
+            //    .BasedOn<IAnimal>()
+            //    .RegisterForFeature<Bat>(FeatureKey.BatFeature, When.Enabled, container)
+            //    .RegisterForFeature<Cat>(FeatureKey.BatFeature, When.Disabled, container)
+            //    .ConfigureIf(f => { f.DependsOn(Dependency.OnComponent<IFeatureConfig, FeatureConfig>());
+            //                          return true;
+            //    }, registration => { })
+            //    .If(f => {
+            //        var featureConfig = container.Resolve<IFeatureConfig>();
+            //        if (featureConfig.BatFeatureEnabled)
+            //        {
+            //            return f.Name.EndsWith("Bat");
+            //        }
+            //        return f.Name.EndsWith("Dog");
+            //    })
+            //    .WithServiceBase());
 
             //container.Register(Component.For<IAnimal>()
             //    .ImplementedBy<Bat>()
@@ -49,38 +61,16 @@ namespace CastleWindsorIoC
 
             // Register all in one go 
             // container.Register(Classes.FromThisAssembly().BasedOn<IAnimal>().WithService.FromInterface());
+
             
-            container.Register(Classes.FromThisAssembly().BasedOn<Logger>());
         }
     }
 
-    public class Config : IConfiguration
+    public enum When
     {
+        Enabled = 1,
 
-        public ConfigurationAttributeCollection Attributes
-        {
-            get { throw new System.NotImplementedException(); }
-        }
-
-        public ConfigurationCollection Children
-        {
-            get { throw new System.NotImplementedException(); }
-        }
-
-        public object GetValue(System.Type type, object defaultValue)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public string Name
-        {
-            get { throw new System.NotImplementedException(); }
-        }
-
-        public string Value
-        {
-            get { throw new System.NotImplementedException(); }
-        }
+        Disabled = 0
     }
 
     public class Installer
