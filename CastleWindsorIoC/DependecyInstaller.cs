@@ -31,7 +31,7 @@ namespace CastleWindsorIoC
                 .FromThisAssembly()
                 .BasedOn<IAnimal>()
                 .RegisterForFeature<IAnimal>(currentConfig)
-                .WithService.AllInterfaces()
+                .WithService.Base()
                 .LifestyleSingleton());
         }
     }
