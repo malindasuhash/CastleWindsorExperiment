@@ -1,0 +1,2 @@
+﻿* Add a method to ensure that IAnimal cannot be 
+resolved by a random type. (Should only be "resolvable" by Logger)
