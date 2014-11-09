@@ -42,6 +42,9 @@ namespace CastleWindsorIoC
         public Type WhenDisabled { get; set; }
 
         public FeatureKey Key { get; set; }
+
+        public string Context { get; set; } // I want to say use types defines in this class when resolving Type Y.
+        // But how???
     }
 
     public class RegistrationConfig<T>
