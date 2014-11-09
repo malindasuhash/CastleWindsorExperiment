@@ -15,11 +15,14 @@ namespace CastleWindsorIoC
                 {
                     var registeredType = registration.WhenEnable != null ? registration.WhenEnable : registration.WhenDisabled;
 
+                    desc.Configure(nameSetter => nameSetter.Named(registration.UseWith));
+
                     return registeredType.Equals(t);
                 }
 
                 return false;
             });
+
 
             return desc;
         }

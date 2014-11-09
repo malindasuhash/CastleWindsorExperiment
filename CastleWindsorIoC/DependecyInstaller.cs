@@ -22,6 +22,7 @@ namespace CastleWindsorIoC
                 .LifestyleSingleton());
 
             container.Register(Component.For<ILogger>()
+                .DependsOn(Dependency.OnComponent(typeof(IAnimal), "Logger"))
                 .ImplementedBy<Logger>()
                 .LifestyleSingleton());
 
@@ -43,8 +44,7 @@ namespace CastleWindsorIoC
 
         public FeatureKey Key { get; set; }
 
-        public string Context { get; set; } // I want to say use types defines in this class when resolving Type Y.
-        // But how???
+        public string UseWith { get; set; } 
     }
 
     public class RegistrationConfig<T>
@@ -58,7 +58,7 @@ namespace CastleWindsorIoC
                     WhenEnable = typeof(Bat), 
                     WhenDisabled = typeof(Cat), 
                     Key = FeatureKey.BatFeature,
-                    Context = "Logger" // Use the the types defined here to resolve Logger. How to to say??
+                    UseWith = "Logger" // Use the the types defined here to resolve Logger.
                 };
             }
         }
