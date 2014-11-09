@@ -2,12 +2,6 @@
 {
     public interface IFeatureConfig
     {
-        bool CatFeatureEnabled { get; }
-
-        bool BatFeatureEnabled { get; }
-
-        bool DogFeatureEnabled { get; }
-
         bool IsFeatureEnabled(FeatureKey featureKey);
     }
 
@@ -22,30 +16,6 @@
 
     public class FeatureConfig : IFeatureConfig
     {
-        public bool CatFeatureEnabled
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        public bool BatFeatureEnabled
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        public bool DogFeatureEnabled
-        {
-            get
-            {
-                return false;
-            }
-        }
-
         public bool IsFeatureEnabled(FeatureKey featureKey)
         {
             switch (featureKey)

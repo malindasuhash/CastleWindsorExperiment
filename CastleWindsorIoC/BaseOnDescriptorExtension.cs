@@ -7,27 +7,50 @@ namespace CastleWindsorIoC
 {
     public static class BaseOnDescriptorExtension
     {
-        public static BasedOnDescriptor RegisterForFeature<T>(this BasedOnDescriptor desc, FeatureKey featureKey, When state, IWindsorContainer container)
+        public static BasedOnDescriptor RegisterForFeature<T>(this BasedOnDescriptor desc, RegistrationConfig<T> config, IWindsorContainer container)
         {
-            desc.ConfigureIf(component =>
+            desc.If(t =>
             {
-
-                component.DependsOn(Dependency.OnComponent<IFeatureConfig, FeatureConfig>());
-                var feature = container.Resolve<IFeatureConfig>();
-                var enabled = feature.IsFeatureEnabled(featureKey);
-
-                if (state == When.Enabled && enabled)
+                foreach (var registration in config.Registrations)
                 {
-                    var implementTypeName = component.Implementation.Name;
-                    var registerTypeName = typeof(T).Name;
-                    var result = implementTypeName.Equals(registerTypeName);
-                    return result;
+                    var currentType = t.Name;
+
+                    if ((registration.When == When.Enabled) || (registration.When == When.Disabled))
+                    {
+                        var registeredType = registration.Type.Name;
+
+                        return registeredType.Equals(currentType);
+                    }
                 }
 
                 return false;
-            },
-                registration => registration.LifestyleSingleton());
-           return desc;
+            });
+
+            return desc;
+
+            #region Attemp to use ConfigureId
+
+            // desc.ConfigureIf(component =>
+           // {
+
+           //     component.DependsOn(Dependency.OnComponent<IFeatureConfig, FeatureConfig>());
+           //     var feature = container.Resolve<IFeatureConfig>();
+           //     var enabled = feature.IsFeatureEnabled(featureKey);
+
+           //     if (state == When.Enabled && enabled)
+           //     {
+           //         var implementTypeName = component.Implementation.Name;
+           //         var registerTypeName = typeof(T).Name;
+           //         var result = implementTypeName.Equals(registerTypeName);
+           //         return result;
+           //     }
+
+           //     return false;
+           // },
+           //     registration => registration.LifestyleSingleton());
+            //return desc;
+
+            #endregion
         }
     }
 }
