@@ -57,7 +57,8 @@ namespace CastleWindsorIoC
                 {  
                     WhenEnable = typeof(Bat), 
                     WhenDisabled = typeof(Cat), 
-                    Key = FeatureKey.BatFeature 
+                    Key = FeatureKey.BatFeature,
+                    Context = "Logger" // Use the the types defined here to resolve Logger. How to to say??
                 };
             }
         }
