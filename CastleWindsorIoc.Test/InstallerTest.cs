@@ -23,6 +23,8 @@ namespace CastleWindsorIoc.Test
 
             // Assert
             Assert.AreEqual(1, result.Count());
+            var msg = container.Resolve<IAnimal>().Name;
+            Assert.AreEqual("Bat", msg);
         }
     }
 }

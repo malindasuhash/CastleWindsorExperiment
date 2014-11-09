@@ -18,7 +18,8 @@ namespace CastleWindsorIoC
 
             // Somewhere in the container.
             container.Register(Component.For<IFeatureConfig>()
-                .ImplementedBy<FeatureConfig>());
+                .ImplementedBy<FeatureConfig>()
+                .LifestyleSingleton());
 
             container.Register(Component.For<ILogger>()
                 .ImplementedBy<Logger>()
@@ -28,7 +29,7 @@ namespace CastleWindsorIoC
             container.Register(Classes
                 .FromThisAssembly()
                 .BasedOn<IAnimal>()
-                .RegisterForFeature<IAnimal>(currentConfig, container)
+                .RegisterForFeature<IAnimal>(currentConfig)
                 .WithService.AllInterfaces()
                 .LifestyleSingleton());
         }
@@ -36,9 +37,9 @@ namespace CastleWindsorIoC
 
     public class Registration<T>
     {
-        public When When { get; set; }
+        public Type WhenEnable { get; set; }
 
-        public Type Type { get; set; }
+        public Type WhenDisabled { get; set; }
 
         public FeatureKey Key { get; set; }
     }
@@ -49,18 +50,14 @@ namespace CastleWindsorIoC
         {
             get
             {
-                yield return new Registration<T>() { When = When.Enabled, Type = typeof(Bat), Key = FeatureKey.BatFeature };
-                yield return new Registration<T>() { When = When.Disabled, Type = typeof(Cat), Key = FeatureKey.BatFeature };
+                yield return new Registration<T>() 
+                {  
+                    WhenEnable = typeof(Bat), 
+                    WhenDisabled = typeof(Cat), 
+                    Key = FeatureKey.BatFeature 
+                };
             }
         }
-    }
-
-
-    public enum When
-    {
-        Enabled = 1,
-
-        Disabled = 0
     }
 
     public class Installer
