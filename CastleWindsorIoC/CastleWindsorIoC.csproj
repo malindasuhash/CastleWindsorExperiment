@@ -51,7 +51,9 @@
     <Compile Include="BaseOnDescriptorExtension.cs" />
     <Compile Include="Bat.cs" />
     <Compile Include="Cat.cs" />
+    <Compile Include="ComponentRegistrationExtension.cs" />
     <Compile Include="DependecyInstaller.cs" />
+    <Compile Include="DependecyInstaller2.cs" />
     <Compile Include="Dog.cs" />
     <Compile Include="IAnimal.cs" />
     <Compile Include="IFeatureConfig.cs" />

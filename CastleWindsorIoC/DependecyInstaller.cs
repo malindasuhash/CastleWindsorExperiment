@@ -27,7 +27,7 @@ namespace CastleWindsorIoC
             container.Register(Classes
                 .FromThisAssembly()
                 .BasedOn<IAnimal>()
-                .RegisterForFeature<IAnimal>(currentConfig)
+                .RegisterForFeature(currentConfig)
                 .WithService.Base()
                 .LifestyleSingleton());
         }
@@ -55,7 +55,7 @@ namespace CastleWindsorIoC
                     WhenEnable = typeof(Bat), 
                     WhenDisabled = typeof(Cat), 
                     Key = FeatureKey.BatFeature,
-                    UseWith = "Logger" // Use the the types defined here to resolve Logger.
+                    UseWith = "Logger" // Use the the type defined here to resolve Logger.
                 };
             }
         }

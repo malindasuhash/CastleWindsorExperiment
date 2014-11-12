@@ -58,6 +58,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="InstallerTest.cs" />
+    <Compile Include="InstallerTest2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@ namespace CastleWindsorIoC
 {
     public static class BaseOnDescriptorExtension
     {
-        public static BasedOnDescriptor RegisterForFeature<T>(this BasedOnDescriptor desc, RegistrationConfig config)
+        public static BasedOnDescriptor RegisterForFeature(this BasedOnDescriptor desc, RegistrationConfig config)
         {
             desc.If(t =>
             {
