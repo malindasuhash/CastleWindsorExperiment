@@ -1,10 +1,7 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-using Castle.Core.Configuration;
-using Castle.MicroKernel.Registration;
+﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace CastleWindsorIoC
@@ -14,7 +11,7 @@ namespace CastleWindsorIoC
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             // Get current configuration = Web serivce call or somewhere perhaps.
-            var currentConfig = new RegistrationConfig<IAnimal>();
+            var currentConfig = new RegistrationConfig();
 
             // Somewhere in the container.
             container.Register(Component.For<IFeatureConfig>()
@@ -36,7 +33,7 @@ namespace CastleWindsorIoC
         }
     }
 
-    public class Registration<T>
+    public class Registration
     {
         public Type WhenEnable { get; set; }
 
@@ -47,13 +44,13 @@ namespace CastleWindsorIoC
         public string UseWith { get; set; } 
     }
 
-    public class RegistrationConfig<T>
+    public class RegistrationConfig
     {
-        public IEnumerable<Registration<T>> Registrations
+        public IEnumerable<Registration> Registrations
         {
             get
             {
-                yield return new Registration<T>() 
+                yield return new Registration() 
                 {  
                     WhenEnable = typeof(Bat), 
                     WhenDisabled = typeof(Cat), 

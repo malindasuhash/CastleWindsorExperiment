@@ -1,23 +1,20 @@
-﻿using Castle.Components.DictionaryAdapter.Xml;
-using Castle.MicroKernel.Registration;
-using System;
-using Castle.Windsor;
+﻿using Castle.MicroKernel.Registration;
 
 namespace CastleWindsorIoC
 {
     public static class BaseOnDescriptorExtension
     {
-        public static BasedOnDescriptor RegisterForFeature<T>(this BasedOnDescriptor desc, RegistrationConfig<T> config)
+        public static BasedOnDescriptor RegisterForFeature<T>(this BasedOnDescriptor desc, RegistrationConfig config)
         {
             desc.If(t =>
             {
                 foreach (var registration in config.Registrations)
                 {
-                    var registeredType = registration.WhenEnable != null ? registration.WhenEnable : registration.WhenDisabled;
+                    var registeredType = registration.WhenEnable ?? registration.WhenDisabled;
 
                     desc.Configure(nameSetter => nameSetter.Named(registration.UseWith));
 
-                    return registeredType.Equals(t);
+                    return registeredType == t;
                 }
 
                 return false;
